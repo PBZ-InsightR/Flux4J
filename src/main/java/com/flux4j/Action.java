@@ -1,7 +1,12 @@
 package com.flux4j;
 
+import java.util.function.Function;
+
 public class Action {
+
     private String actionType;
 
-    // TODO
+    Action(String actionType){
+        this.actionType = actionType;
+    }
 }

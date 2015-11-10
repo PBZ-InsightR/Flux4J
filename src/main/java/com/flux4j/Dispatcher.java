@@ -19,11 +19,11 @@ public class Dispatcher {
 
     private static int ID = 0;
 
-    private Map<String, Function> callbacks;
+    private Map<String, Function<Action,Object>> callbacks;
     private Map<String, Boolean> isPending;
     private Map<String, Boolean> isHandled;
 
-    private Object pendingPayLoad;
+    private Action pendingPayLoad;
 
     private Dispatcher()
     {
@@ -62,11 +62,11 @@ public class Dispatcher {
     /**
      * Dispatches a payload to all registered callbacks.
      */
-    public void dispatch(Object payload) {
+    public void dispatch(Action payload) {
         if(!isDispatching){
             startDispatchning(payload);
             try{
-                for(Map.Entry<String,Function> id : callbacks.entrySet()){
+                for(Map.Entry<String,Function<Action,Object>> id : callbacks.entrySet()){
                     if(isPending.get(id.getKey())){
                         continue;
                     }
@@ -98,8 +98,8 @@ public class Dispatcher {
      *
      * @param payload a payload in accordance with the callback.
      */
-    private void startDispatchning(Object payload) {
-        for(Map.Entry<String,Function> id : callbacks.entrySet())
+    private void startDispatchning(Action payload) {
+        for(Map.Entry<String,Function<Action,Object>> id : callbacks.entrySet())
         {
             isPending.put(id.getKey(), false);
             isHandled.put(id.getKey(), false);
@@ -146,7 +146,7 @@ public class Dispatcher {
      * @param callback a specified function.
      * @return id for the registered callback.
      */
-    public String register(Function callback){
+    public String register(Function<Action,Object> callback){
         String id = PREFIX + ID++;
         callbacks.put(id,callback);
         return id;
