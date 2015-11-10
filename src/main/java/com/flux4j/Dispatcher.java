@@ -19,7 +19,7 @@ public class Dispatcher {
 
     private static int ID = 0;
 
-    private Map<String, Function<Action,Object>> callbacks;
+    protected Map<String, Function<Action, Object>> callbacks;
     private Map<String, Boolean> isPending;
     private Map<String, Boolean> isHandled;
 
@@ -27,7 +27,7 @@ public class Dispatcher {
 
     private Dispatcher()
     {
-        this.isDispatching = true;
+        this.isDispatching = false;
         callbacks = new HashMap<>();
         isPending = new HashMap<>();
         isHandled = new HashMap<>();
@@ -64,7 +64,7 @@ public class Dispatcher {
      */
     public void dispatch(Action payload) {
         if(!isDispatching){
-            startDispatchning(payload);
+            startDispatching(payload);
             try{
                 for(Map.Entry<String,Function<Action,Object>> id : callbacks.entrySet()){
                     if(isPending.get(id.getKey())){
@@ -98,7 +98,7 @@ public class Dispatcher {
      *
      * @param payload a payload in accordance with the callback.
      */
-    private void startDispatchning(Action payload) {
+    private void startDispatching(Action payload) {
         for(Map.Entry<String,Function<Action,Object>> id : callbacks.entrySet())
         {
             isPending.put(id.getKey(), false);
@@ -156,7 +156,7 @@ public class Dispatcher {
      * Removes a callback based on its token.
      * @param id the id of the callback to remove.
      */
-    public void unregister(String id)throws IllegalArgumentException{
+    public void unRegister(String id) throws IllegalArgumentException {
         if(callbacks.get(id) != null)
             callbacks.remove(id);
         else
