@@ -9,4 +9,9 @@ public class Action {
     Action(String actionType){
         this.actionType = actionType;
     }
+
+    String getAction()
+    {
+        return actionType;
+    }
 }
