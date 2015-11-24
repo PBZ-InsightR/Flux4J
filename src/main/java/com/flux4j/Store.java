@@ -1,5 +1,11 @@
 package com.flux4j;
 
-public class Store {
-    // TODO
+import java.util.Observable;
+
+public class Store extends Observable {
+    // TODO actions modify stores
+
+    public void addView(View v) {
+        addObserver(v);
+    }
 }
